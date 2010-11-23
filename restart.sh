@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# need to rename names of scripts
+
 for pid in `ps fax | grep perldancer.pl | grep -v grep |  awk '{print $1}'`
 do 
     echo "killing $pid..." 
