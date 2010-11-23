@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# need to rename names of scripts
+# need to replace names of scripts to more speaking names
 
 for pid in `ps fax | grep perldancer.pl | grep -v grep |  awk '{print $1}'`
 do 
