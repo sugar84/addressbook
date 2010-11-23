@@ -4,3 +4,7 @@ cache: 1
 auto_page: 1
 template: "template_toolkit"
 charset: "utf8"
+db_dbi: "dbi:SQLite:dbname="
+db_name: "testing.db"
+db_sch: "./schema.sql"
+
