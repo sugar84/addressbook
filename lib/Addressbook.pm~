@@ -1,5 +1,5 @@
 package perldancer;
-use Dancer;
+use Dancer ':syntax';
 use Template;
 use utf8;
 
