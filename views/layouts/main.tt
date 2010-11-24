@@ -24,15 +24,13 @@
 <div id="menu">
 
 <ul>
-    <li><a href="/">Overview</a></li>
-    <li><a href="/quickstart">Quick Start</a></li>
-    <li><a href="/example">Example</a></li>
-    <li><a href="/documentation">Documentation</a></li>
-    <li><a href="/download">Download</a></li>
-    <li><a href="/contribute">Contribute</a></li>
-    <li><a href="/used_by">Dancefloor</a></li>
-    <li><a href="/about">About</a></li>
-    <!--	<li><a href="/donate">Donate</a></li> -->
+    <li><a href="/">Описание</a></li>
+    <li><a href="/quickstart">Основы</a></li>
+    <li><a href="/documentation">Документация</a></li>
+    <li><a href="/search">Поиск</a></li>
+    <li><a href="/all_records">Все записи</a></li>
+    <li><a href="/about">О программе</a></li>
+    <li><a href="/login">Войти</a></li>
 </ul>
 
 

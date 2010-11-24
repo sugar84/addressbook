@@ -6,5 +6,6 @@ template: "template_toolkit"
 charset: "utf8"
 db_dbi: "dbi:SQLite:dbname="
 db_name: "testing.db"
-db_sch: "./schema.sql"
+sql_schema: "SQL/schema.sql"
+sql_fetch_all: "SQL/fetch_all.sql"
 
