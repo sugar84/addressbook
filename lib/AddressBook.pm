@@ -11,23 +11,27 @@ use utf8;
 my (%sql_blocks);
 
 sub init_all_sql {
-    open my $fh, "<", setting("sql_schema")
+    my $fh;
+    
+    open $fh, "<", setting("sql_schema")
         or carp "cannot open SQL schema : $!\n";
     $sql_blocks{"schema"} = do { local $/; <$fh> };
-    
-    open my $fh, "<", setting("sql_fetch_all")
+    close $fh;
+
+    open $fh, "<", setting("sql_fetch_all")
         or carp "cannot open SQL fetch_all : $!\n";
     $sql_blocks{"fetch_all"} = do { local $/; <$fh> };
+    close $fh;
 }
 
 sub init_db {
     my $db = connect_db();
 
-    $db->do( $schema ) 
+    $db->do( $sql_blocks{"schema"} ) 
         or carp $db->errstr;
 }
 
-sub connect {
+sub connect_db {
     my $dbh = DBI->connect( setting("db_dbi") . setting("db_name") )
         or carp $DBI::errstr;
 
@@ -40,7 +44,8 @@ get '/all_records' => sub {
     my $db = connect_db();
 
     my $sth = $db->prepare( $sql_blocks{"fetch_all"} )
-        or carp $db-errstr;
+        or carp $db->errstr;
+    warning( $sql_blocks{"fetch_all"} );
     $sth->execute
         or carp $sth->errstr;
 
@@ -53,4 +58,6 @@ get '/' => sub {
     template 'home';
 };
 
+init_all_sql();
+init_db();
 true;
