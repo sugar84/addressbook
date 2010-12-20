@@ -4,8 +4,10 @@
     <table border=1>
     <% FOREACH id IN entries.keys.nsort %>
         <tr>
-        <td><% entries.$id.title %></td>
-        <td><% entries.$id.text %></td>
+        <td><% entries.$id.org_id %></td>
+        <td><% entries.$id.full_name %></td>
+        <td><% entries.$id.branch_name %></td>
+        <td><% entries.$id.branch_order %></td>
         </tr>
     <% END %>
     </table>

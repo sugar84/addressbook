@@ -9,17 +9,23 @@ use utf8;
 ### Subs
 
 my (%sql_blocks);
+$sql_blocks{ "fetch_some" } = qq/
+    SELECT organization.org_id, organization.full_name, branch.branch_name, 
+        branch_order FROM (organization INNER JOIN branch ON 
+            organization.branch2_id = branch.branch_id)
+        WHERE organization.branch2_id = 10/;
+
 
 sub init_all_sql {
     my $fh;
     
     open $fh, "<", setting("sql_schema")
-        or carp "cannot open SQL schema : $!\n";
+        or croak "cannot open SQL schema : $!\n";
     $sql_blocks{"schema"} = do { local $/; <$fh> };
     close $fh;
 
     open $fh, "<", setting("sql_fetch_all")
-        or carp "cannot open SQL fetch_all : $!\n";
+        or croak "cannot open SQL fetch_all : $!\n";
     $sql_blocks{"fetch_all"} = do { local $/; <$fh> };
     close $fh;
 }
@@ -28,12 +34,12 @@ sub init_db {
     my $db = connect_db();
 
     $db->do( $sql_blocks{"schema"} ) 
-        or carp $db->errstr;
+        or croak $db->errstr;
 }
 
 sub connect_db {
     my $dbh = DBI->connect( setting("db_dbi") . setting("db_name") )
-        or carp $DBI::errstr;
+        or croak $DBI::errstr;
 
     return $dbh;
 }
@@ -43,14 +49,14 @@ sub connect_db {
 get '/all_records' => sub {
     my $db = connect_db();
 
-    my $sth = $db->prepare( $sql_blocks{"fetch_all"} )
-        or carp $db->errstr;
-    warning( $sql_blocks{"fetch_all"} );
+    my $sth = $db->prepare( $sql_blocks{"fetch_some"} )
+        or croak $db->errstr;
+    warning( $sql_blocks{"fetch_some"} );
     $sth->execute
-        or carp $sth->errstr;
+        or croak $sth->errstr;
 
     template "all_records.tt", { 
-        entries => $sth->fetchall_hashref("id"),
+        entries => $sth->fetchall_hashref("org_id"),
     };
 };
 
