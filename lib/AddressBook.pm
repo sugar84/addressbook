@@ -4,9 +4,20 @@ use Dancer ':syntax';
 use Template;
 use DBI;
 use Carp;
+use Data::Dumper;
+use Encode;
 use utf8;
 
 ### Subs
+#
+$Data::Dumper::Useqq = 1;
+{ no warnings 'redefine';
+    sub Data::Dumper::qqoute {
+        my $s = shift;
+        return "'$s'";
+    }
+}
+
 
 my (%sql_blocks);
 $sql_blocks{ "fetch_some" } = qq/
@@ -55,8 +66,14 @@ get '/all_records' => sub {
     $sth->execute
         or croak $sth->errstr;
 
+    my $entries    = $sth->fetchall_hashref("org_id")
+        or croak $sth->errstr;
+    my $utf_string = decode( "utf8",  $entries->{"175"}{"full_name"} );
+    warning Dumper( $utf_string );
+
     template "all_records.tt", { 
-        entries => $sth->fetchall_hashref("org_id"),
+        entries  => $entries,
+        test_utf => $utf_string,
     };
 };
 

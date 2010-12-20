@@ -14,5 +14,5 @@
 <% ELSE %>
     <li><em>Unbelievable.  No entries here so far</em>
 <% END %>
-    <p> <% test %> </p>
+    <p> <% test_utf %> </p>
 </ul>
