@@ -7,10 +7,14 @@ use Carp;
 use Data::Dumper;
 use Encode;
 use utf8;
+use AddressBook::SQL;
 
-### Subs
-#
+my %sql_blocks;
+
+# dirty utf8 hack for Dumper
+
 $Data::Dumper::Useqq = 1;
+
 { no warnings 'redefine';
     sub Data::Dumper::qqoute {
         my $s = shift;
@@ -18,14 +22,8 @@ $Data::Dumper::Useqq = 1;
     }
 }
 
-
-my (%sql_blocks);
-$sql_blocks{ "fetch_some" } = qq/
-    SELECT organization.org_id, organization.full_name, branch.branch_name, 
-        branch_order FROM (organization INNER JOIN branch ON 
-            organization.branch2_id = branch.branch_id)
-        WHERE organization.branch2_id = 10/;
-
+### Subs
+#
 
 sub init_all_sql {
     my $fh;
@@ -51,6 +49,8 @@ sub init_db {
 sub connect_db {
     my $dbh = DBI->connect( setting("db_dbi") . setting("db_name") )
         or croak $DBI::errstr;
+    
+    $dbh->{"unicode"} = 1;
 
     return $dbh;
 }
@@ -60,20 +60,20 @@ sub connect_db {
 get '/all_records' => sub {
     my $db = connect_db();
 
-    my $sth = $db->prepare( $sql_blocks{"fetch_some"} )
+    my $sth = $db->prepare( $AddressBook::SQL::BLOCKS{"fetch_some"} )
         or croak $db->errstr;
-    warning( $sql_blocks{"fetch_some"} );
+    warning( $AddressBook::SQL::BLOCKS{"fetch_some"} );
     $sth->execute
         or croak $sth->errstr;
 
+    warning join("::", @INC);
+
     my $entries    = $sth->fetchall_hashref("org_id")
         or croak $sth->errstr;
-    my $utf_string = decode( "utf8",  $entries->{"175"}{"full_name"} );
-    warning Dumper( $utf_string );
 
     template "all_records.tt", { 
         entries  => $entries,
-        test_utf => $utf_string,
+#        test_utf => $utf_string,
     };
 };
 
