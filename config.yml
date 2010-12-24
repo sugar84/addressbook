@@ -8,4 +8,13 @@ db_dbi: "dbi:SQLite:dbname="
 db_name: "pervomay.db"
 sql_schema: "SQL/schema.sql"
 sql_fetch_all: "SQL/fetch_all.sql"
+plugins:
+    Database:
+        driver: "SQLite"
+        database: "pervomay.db"
+        dbi_params:
+            RaiseError: 1
+            AutoCommit: 1
+            unicode:    1
+
 
