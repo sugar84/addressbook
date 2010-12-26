@@ -28,23 +28,28 @@ $Data::Dumper::Useqq = 1;
 ### Subs
 #
 
-sub test_select {
-    my $sth = database->prepare( $sql_blocks->{"test_select"} )
-        or croak database->errstr;
-    $sth->execute
-        or croak $sth->errstr;
-    my $entries = $sth->fetchall_hashref("org_id")
-        or croak $sth->errstr;
+#sub test_select {
+#    my $sth = database->prepare( $sql_blocks->{"test_select"} )
+#        or croak database->errstr;
+#    $sth->execute
+#        or croak $sth->errstr;
+#    my $entries = $sth->fetchall_hashref("org_id")
+#        or croak $sth->errstr;
+#
+#    return $entries;
+#}
 
-    return $entries;
-}
+
+use DB;
+#load "DB.pm";
+#DB->import( qw(test_select) );
 
 ### Handlers
 
 get '/all_records' => sub {
 
-    warning Dumper( $sql_blocks );
-    my $entries = test_select;
+    warning ( __PACKAGE__ );
+    my $entries = AddressBook::DB::test_select();
 
     template "all_records.tt", { 
         entries  => $entries,
@@ -56,5 +61,5 @@ get '/' => sub {
     template 'home';
 };
 
-init_db();
+#init_db();
 true;

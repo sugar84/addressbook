@@ -15,6 +15,6 @@ plugins:
         dbi_params:
             RaiseError: 1
             AutoCommit: 1
-            unicode:    1
+            sqlite_unicode:    1
 
 
