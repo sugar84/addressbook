@@ -5,6 +5,7 @@ use Template;
 use Carp;
 use Data::Dumper;
 use Dancer::Plugin::Database;
+use AddressBook::Plugin::MountCode;
 use utf8;
 
 my %sql_blocks;
@@ -39,8 +40,20 @@ $Data::Dumper::Useqq = 1;
 #    return $entries;
 #}
 
+warning caller;
+#mount_code;
 
-use DB;
+open my $fh, "<", "lib/AddressBook/DB2.pm"
+    or croak "cannot open the file $!";
+my $code = do { local $/ = undef; <$fh> };
+close $fh;
+eval $code;
+#warning $code;
+#warning $@ if $@;
+#warning show_settings();
+#eval
+#use AddressBook::DB2;
+#use DB;
 #load "DB.pm";
 #DB->import( qw(test_select) );
 
@@ -49,7 +62,7 @@ use DB;
 get '/all_records' => sub {
 
     warning ( __PACKAGE__ );
-    my $entries = AddressBook::DB::test_select();
+    my $entries = test_select();
 
     template "all_records.tt", { 
         entries  => $entries,

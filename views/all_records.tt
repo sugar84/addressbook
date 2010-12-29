@@ -1,7 +1,7 @@
 <h2>Раздел в разработке</h2>
 <ul class=entries>
 <% IF entries.size %>
-    <table border=1>
+    <table border="1" cellspacing="0" callpadding ="5">
     <% FOREACH id IN entries.keys.nsort %>
         <tr>
         <td><% entries.$id.org_id %></td>
