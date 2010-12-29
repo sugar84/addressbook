@@ -19,16 +19,16 @@ register mount_code => sub {
             or croak "cannot open $file at $description : $!\n";
         
         my $code = do { local $/= undef; <$fh> };
-#        warning caller;
+        warning caller;
         my $current_pack = __PACKAGE__;
         my $caller_pack  = caller;
-        warning $caller_pack;
+        warning $current_pack;
 #        {
 #            no strict 'refs';
 #            *{$caller_pack . "::"} = \*{$current_pack . "::"};
 #        }
         my $eval = qq/package $caller_pack;\n $code/;
-#        warning __PACKAGE__;
+        warning __PACKAGE__;
         eval $eval;
         if ($@) {
             croak "while execution code some errors occured see the:\n" .

@@ -16,7 +16,6 @@ plugins:
             RaiseError: 1
             AutoCommit: 1
             sqlite_unicode:    1
-            unicode:    1
     'AddressBook::Plugin::MountCode':
         to_load: "lib/AddressBook/DB2.pm"
 
