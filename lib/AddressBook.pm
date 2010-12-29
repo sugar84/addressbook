@@ -41,13 +41,13 @@ $Data::Dumper::Useqq = 1;
 #}
 
 warning caller;
-#mount_code;
-
-open my $fh, "<", "lib/AddressBook/DB2.pm"
-    or croak "cannot open the file $!";
-my $code = do { local $/ = undef; <$fh> };
-close $fh;
-eval $code;
+mount_code;
+#
+#open my $fh, "<", "lib/AddressBook/DB2.pm"
+#    or croak "cannot open the file $!";
+#my $code = do { local $/ = undef; <$fh> };
+#close $fh;
+#eval $code;
 #warning $code;
 #warning $@ if $@;
 #warning show_settings();
