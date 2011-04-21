@@ -12,6 +12,7 @@
 <!-- prettify -->
 <link href="/css/prettify.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" src="/javascripts/prettify.js"></script>
+<script type="text/javascript" src="/javascripts/jquery_1.5.js"></script>
 
 <meta name="generator" content="Dancer 1.0" />
 </head>
